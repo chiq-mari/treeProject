@@ -133,6 +133,40 @@ void Tree<T>::preOrden(Node<T> *node)
 
 //
 template<class T>
+Node<T>* Tree<T>::findNodeFromRoot(Node<T>* nodeRoot, T data)
+{
+    if(nodeRoot==NULL)
+    {
+        return nullptr;  //if this is empty/ do nothing
+    }
+    if (nodeRoot->getData()==data)
+    {
+        return nodeRoot;
+    }  //start by printing the father
+    Node<T>* ans1= findNodeFromRoot(nodeRoot->getChildren(0), data); //then print starting from the left subtree 
+    Node<T>* ans2= findNodeFromRoot(nodeRoot->getChildren(1), data); //then print from the right subtree 
+    if(ans1!=nullptr)
+    {
+        return ans1;
+    }else if(ans2!=nullptr)
+    {
+        return ans2;
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
+template<class T>
+Node<T>* Tree<T>::findNodeInTree(T data)
+{
+    return findNodeFromRoot(this->root, data);
+}
+
+
+//
+template<class T>
 void Tree<T>:: printAsTreeFromRoot(Node<T>* node, int cont)
 {
     if(node==nullptr)

@@ -7,9 +7,10 @@ int main(){
     arbol.printAsTree();
     cout<<"\n\n\n";
     arbol.insert(10);
-    arbol.insert(1);
+    arbol.insert(3);
     arbol.printAsTree();
     cout<<"\n\n\n";
+    arbol.insert(1);
     arbol.insert(6);
     arbol.insert(4);
     arbol.printAsTree();
@@ -27,4 +28,18 @@ int main(){
     arbol.printTree(1);
     cout<<endl;
     arbol.printTree(2);
+    cout<<"\n\n\n";
+
+    Node<int>* ptrFound= arbol.findNodeInTree(14);
+    cout<<ptrFound<<endl;
+    if(ptrFound!=nullptr){
+    cout<<ptrFound->getData()<<endl;
+    }
+    if(ptrFound->getLeftChild()!=nullptr){
+    cout<<ptrFound->getLeftChild()->getData()<<endl;
+    }
+    if(ptrFound->getRightChild()!=nullptr){
+    cout<<ptrFound->getRightChild()->getData()<<endl;
+    }
+
 }
