@@ -14,10 +14,12 @@ Node<T>::Node(T data, Node<T>* left, Node<T>* right)
 {
     this->data=data;
     //children
-    if(right!=NULL){ //si los hijos son distintos de null--> los cambia
+    if(right!=NULL)
+    { //si los hijos son distintos de null--> los cambia
         this->right=right;
     }
-    if(left!=NULL){
+    if(left!=NULL)
+    {
         this->left=left;
     }
 }
@@ -89,15 +91,21 @@ Node<T>* Node<T>::getChildren(int child){
 
 template <class T>  //
 void Node<T>::setChildren(Node<T>* left, Node<T>* right){
-    if(right != NULL && left!=NULL){
+    if(right != NULL && left!=NULL)
+    {
         this->right=right;
         this->left=left;
-    }else if(left!=NULL){
+    }
+    else if(left!=NULL)
+    {
     this->left=left;
     }
-    else if(right != NULL){
-          this->right=right;
-    }else{
+    else if(right != NULL)
+    {
+        this->right=right;
+    }
+    else
+    {
         this->right=NULL;
         this->left=NULL;
     }
@@ -105,11 +113,13 @@ void Node<T>::setChildren(Node<T>* left, Node<T>* right){
 
 //case of heights
 template <class T>  //  
-void Node<T>::setHeight(int height){
+void Node<T>::setHeight(int height)
+{
     this->height=height;
 }
 
 template <class T>  //
-int Node<T>::getHeight(){
+int Node<T>::getHeight()
+{
    return this->height;
 }

@@ -25,5 +25,4 @@ class Tree{
         void printAsTreeFromRoot(Node<T>*, int); //added for simple datatypes
         void printAsTree();
         void printing();
-
 };

@@ -33,7 +33,8 @@ bool Tree<T>::isEmpty()
 
 //inserts in the tree for the given Root of the tree to insert into
 template<class T>
-void Tree<T>::insertGivenRoot(Node<T>*& nodeRoot, T data){
+void Tree<T>::insertGivenRoot(Node<T>*& nodeRoot, T data)
+{
     if(nodeRoot==nullptr)
     {  //if your root is null--> tree is empty
         Node<T>* newNode= new Node<T>(data, nullptr, nullptr); //creates newNode
