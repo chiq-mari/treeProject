@@ -25,7 +25,6 @@ class Tree{
         void printAsTreeFromRoot(Node<T>*, int); //added for simple datatypes
         void printAsTree();
         void printing();
-
         //recorrido
         Node<T>* findNodeFromRoot(Node<T>*, T);
         Node<T>* findNodeInTree(T);
