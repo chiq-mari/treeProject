@@ -91,7 +91,7 @@ bool Person::isActualKing()
 
 bool Person::hasFather(Person fatherCandidate)
 {
-    return this->idFather == fatherCandidate.idFather;
+    return this->idFather == fatherCandidate.getId();
 }
 
 bool Person::hasChild(Person child)
