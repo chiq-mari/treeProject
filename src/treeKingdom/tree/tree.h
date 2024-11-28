@@ -13,7 +13,7 @@ class Tree{
         //destructores
         ~Tree();
         //other methods
-        void insertGivenRoot(Node<T>*& , T);
+        //void insertGivenRoot(Node<T>*& , T);
         bool isEmpty(); //indica si el arbol esta vacio
         void insert(T); //inserta un dato del tipo T
         //void eliminate(T);  //elimina un dato del tipo T
@@ -24,8 +24,8 @@ class Tree{
 
         void printAsTreeFromRoot(Node<T>*, int); //added for simple datatypes
         void printAsTree();
-        void printing();
+        void printing(Node<T>*);
         //recorrido
-        Node<T>* findNodeFromRoot(Node<T>*, T);
-        Node<T>* findNodeInTree(T);
+        Node<T>* findNodeFromRoot(Node<T>*, int);
+        Node<T>* findNodeInTree(int);
 };

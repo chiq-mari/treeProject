@@ -31,6 +31,7 @@ bool Tree<T>::isEmpty()
     return root==NULL;
 }
 
+/*
 //inserts in the tree for the given Root of the tree to insert into
 template<class T>
 void Tree<T>::insertGivenRoot(Node<T>*& nodeRoot, T data)
@@ -74,12 +75,63 @@ void Tree<T>::insertGivenRoot(Node<T>*& nodeRoot, T data)
         }
     }
 }
+*/
 
 //original insert
 template<class T>   //applies prev but with root the root of the tree
 void Tree<T>:: insert(T data)
 {   
-    insertGivenRoot(root, data);
+    //insertGivenRoot(root, data);
+    //-----------------------------
+
+    Node<T>* nodeToInsert= new Node<T>(data, nullptr, nullptr); //creates node
+    int fatherIdOfData= data.getIdFather();   //get id of father
+
+    //searches node of his father
+    Node<T>* father= findNodeInTree(fatherIdOfData);
+
+    if(father==nullptr || this->root==nullptr) //there's no father and tree is empty
+    {
+      this->root=nodeToInsert; 
+      return; 
+    }
+    else if(father==nullptr) // there's no father and tree isn't empty
+    {
+       cout<<"Such person does not have his father within the tree\n";
+       return; 
+    }
+    else    //father isn't nullptr, so it's inside the tree
+    {
+        if(father->getRightChild()==nullptr)
+        {   //if there's no first child
+            father->setRightChild(nodeToInsert);    //just set it as the right one
+            return;
+        }
+        else   // there is a first child inserted
+        {
+            if(father->getLeftChild()!= nullptr) //if there is other child--> impossible
+            {
+                cout<<"The father node cannot have more than 2 children\n";
+                return;
+            }
+            //=>left child will be nullptr
+            if(data.getAge()<=father->getRightChild()->getData().getAge())   // if age of new is smaller than age of right one
+            {
+                father->setLeftChild(nodeToInsert); //just set it as the left child;
+                return;
+            }
+            else    //age of the person to insert is greater than age of the one inserted -=> he is the firstborn
+            {
+                Node<T>* temp= father->getRightChild(); // right child is 2nd child(the one to the left)
+                father->setRightChild(nodeToInsert); //inserts newNode in right child
+                father->setLeftChild(temp);
+                return;
+            }
+
+        }
+
+    }
+
 }
 
 //
@@ -133,19 +185,21 @@ void Tree<T>::preOrden(Node<T> *node)
 }
 
 //
+//In tree, will find address for node with person where the Id is the data given
 template<class T>
-Node<T>* Tree<T>::findNodeFromRoot(Node<T>* nodeRoot, T data)
+Node<T>* Tree<T>::findNodeFromRoot(Node<T>* nodeRoot, int idGiven)
 {
     if(nodeRoot==NULL)
     {
-        return nullptr;  //if this is empty/ do nothing
-    }
-    if (nodeRoot->getData()==data)
+        return nullptr;  //if this is empty, it won't find the node with person of such id/ do nothing
+    }   //tree isn't empty-> there is a root
+    if (nodeRoot->getData().getId()==idGiven)
     {
         return nodeRoot;
-    }  //start by printing the father
-    Node<T>* ans1= findNodeFromRoot(nodeRoot->getChildren(0), data); //then print starting from the left subtree 
-    Node<T>* ans2= findNodeFromRoot(nodeRoot->getChildren(1), data); //then print from the right subtree 
+    }  
+    //if not in root, search in children
+    Node<T>* ans1= findNodeFromRoot(nodeRoot->getChildren(0), idGiven); //then print starting from the left subtree 
+    Node<T>* ans2= findNodeFromRoot(nodeRoot->getChildren(1), idGiven); //then print from the right subtree 
     if(ans1!=nullptr)
     {
         return ans1;
@@ -159,10 +213,11 @@ Node<T>* Tree<T>::findNodeFromRoot(Node<T>* nodeRoot, T data)
     }
 }
 
+//find node with such id in the tree
 template<class T>
-Node<T>* Tree<T>::findNodeInTree(T data)
+Node<T>* Tree<T>::findNodeInTree(int idGiven)
 {
-    return findNodeFromRoot(this->root, data);
+    return findNodeFromRoot(this->root, idGiven);
 }
 
 
@@ -195,12 +250,18 @@ void Tree<T>:: printAsTree()
 
 
 template<class T>
-void Tree<T>:: printing()
+void Tree<T>:: printing(Node<T>* nodeRoot)
 {
- root->printNode();
+ nodeRoot->printNode();
  
- root->getRightChild()->printNode();
+ if(nodeRoot->getRightChild()!=nullptr)
+ {
+ nodeRoot->getRightChild()->printNode();
+ }
 
- root->getLeftChild()->printNode();
-
+ if(nodeRoot->getLeftChild()!=nullptr)
+ {
+ nodeRoot->getLeftChild()->printNode();
+ }
+ 
 }

@@ -1,3 +1,4 @@
+#include "../peopleKingdom/person.cpp"
 #include<iostream>
 using namespace std;
 
@@ -29,6 +30,8 @@ class Node{
         int getHeight();
         //show
         void printNode();
+
+        void printNodeLong();
 
         //for both
         Node<T>* getChildren(int);  // if int is 0--> left child, int=1-->rigth child

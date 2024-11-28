@@ -1,5 +1,5 @@
 #include".\tree.cpp"
-
+/*
 int main(){
     Tree<int> arbol;
 
@@ -41,5 +41,29 @@ int main(){
     if(ptrFound->getRightChild()!=nullptr){
     cout<<ptrFound->getRightChild()->getData()<<endl;
     }
+}
+*/
+
+int main()
+{
+    Person person1(3205117,"Tootsie","Bainbridge","Female",71,5688792,0,1,0);
+    Person person2(4690818,"Ginelle","Kingsley","Female",70,3205117,0,1,0);
+    Person person3(4911800,"Ariadne","Marchenko","Female",69,3205117,0,0,0);
+    Person person4(6171932,"Roch","Jillard","Female",65,4911800,0,0,0);
+    Person person5(6577415,"Andree","Dupre","Female",68,4911800,0,0,0);
+
+    Tree<Person> arbol;
+    
+    arbol.insert(person1);
+    arbol.insert(person2);
+    arbol.insert(person3);
+    arbol.insert(person4);
+    arbol.insert(person5);
+
+    Node<Person>* k= arbol.findNodeInTree(4911800);
+
+    arbol.printing(k);
+
+
 
 }

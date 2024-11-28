@@ -71,9 +71,14 @@ Node<T>* Node<T>:: getRightChild(){
 }
 
 //show
-template<class T>   //
+template<class T>   // para tipo de dato Persona
 void Node<T>:: printNode(){
-    cout<<this->data<<" ";      //solo para datos simples
+    this->data.printPerson();    //prints the short way  
+}
+
+template<class T>   // long way
+void Node<T>:: printNodeLong(){
+    this->data.printWholePerson();    //prints the long way  
 }
 
 //for both 
