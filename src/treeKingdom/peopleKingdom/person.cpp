@@ -1,7 +1,7 @@
 #include "person.h"
 #include <iostream>
 using namespace std;
-
+//constructors
 Person::Person(){};
 
 Person::Person(int id, string name, string lastName, string gender, int age, int idFather, bool isDead, bool wasKing, bool isKing)
@@ -18,7 +18,7 @@ Person::Person(int id, string name, string lastName, string gender, int age, int
 }
 
 Person::~Person(){};
-
+// get data
 string Person::getName()
 {
     return this->name;
@@ -44,6 +44,11 @@ int Person::getIdFather()
     return this->idFather;
 }
 
+string Person:: getGender()
+{
+    return this->gender;
+}
+//set data
 void Person::changeName(string name)
 {
     this->name = name;
@@ -79,6 +84,13 @@ void Person::changeIsKing(bool isKing)
     this->isKing = isKing;
 }
 
+
+//useful fucntions
+
+bool Person::wasSomeKing(){
+    return this->wasKing;
+}
+
 bool Person::isAlive()
 {
     return !(this->isDead);
@@ -91,12 +103,12 @@ bool Person::isActualKing()
 
 bool Person::hasFather(Person fatherCandidate)
 {
-    return this->idFather == fatherCandidate.idFather;
+    return this->idFather == fatherCandidate.getId();
 }
 
 bool Person::hasChild(Person child)
 {
-    return child.idFather == this->id;
+    return child.getIdFather() == this->id;
 }
 
 Person Person::firstborn(Person childOne, Person childTwo)

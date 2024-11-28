@@ -25,6 +25,8 @@ class Person
        int getId();//
        int getIdFather();//
        
+       string getGender();//
+       
        // changing atributes
        void changeName(string);  //
        void changeLastName(string);  //
@@ -37,6 +39,8 @@ class Person
        // useful functions
        bool isAlive();  //
        bool isActualKing(); //
+       bool wasSomeKing(); //
+
        bool hasFather(Person); // //compares passed id with the person's father id
        bool hasChild(Person); // //tells whether the argument is a Child
        Person firstborn(Person, Person); // passed two children, returns firstborn*/
