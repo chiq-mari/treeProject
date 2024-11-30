@@ -125,7 +125,7 @@ Person Person::firstborn(Person childOne, Person childTwo)
 
 void Person::printPerson()
 {
-    cout<<this->getName()<<" "<<this->getLastName()<<endl;
+    cout<<this->getName()<<" "<<this->getLastName(); // deletion of endl
 }
 
 void Person::printWholePerson()

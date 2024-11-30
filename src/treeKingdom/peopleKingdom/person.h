@@ -45,7 +45,7 @@ class Person
        bool hasChild(Person); // //tells whether the argument is a Child
        Person firstborn(Person, Person); // passed two children, returns firstborn*/
        // to use prior function, make sure both arguments are children of the person
-       void printPerson();//
+       void printPerson();// Can't be deleted
        void printWholePerson();//
 };
 
