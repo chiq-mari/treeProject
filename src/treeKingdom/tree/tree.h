@@ -34,6 +34,9 @@ class Tree{
         Node<T>* getKing();
         void setKing(Node<T>*);
         //finding king
+
+        bool isLeaf(Node<T>*);
+
         Node<T>* findKingToTheRight(Node<T>*);
         Node<T>* findKingToTheLeft(Node<T>*);
         Node<T>* findKingDown(Node<T>*);

@@ -326,19 +326,125 @@ Node<T>* Tree<T>:: findKingToTheRight(Node<T>* nodeRoot)
     }
 }
 
-
-
-
-
-
-
-
-
 template<class T>
 Node<T>* Tree<T>:: findKingToTheLeft(Node<T>* nodeRoot)
 {
+    //get children of Root first
+    Node<T>* RightChildOfRoot = nodeRoot->getRightChild();
+    Node<T>* LeftChildOfRoot= nodeRoot->getLeftChild();
 
-}
+    if(nodeRoot==nullptr)   // tree does not exist
+    {
+        return nullptr;
+    }
+    //tree does exist --|
+                      //V
+    //if root does not have children
+    if(RightChildOfRoot ==nullptr && LeftChildOfRoot==nullptr)
+    {
+        return nullptr;
+    }
+    // nodeRoot exists and is a father 
+
+        //if the root does have children, but their children are leaves => nodeRoot isn't grandpa
+        if (!nodeRoot->isGrandpa()){
+            // 1 children leaf (right)
+            if(LeftChildOfRoot == nullptr && RightChildOfRoot->isLeaf())
+            {
+                return nullptr;
+            }
+            //both children
+            else //Left isn't null -->  2 children --> both leaves
+            {
+                if(LeftChildOfRoot->canBeKing())
+                {
+                    return LeftChildOfRoot;
+                }
+                else
+                {
+                    return nullptr;
+                }
+            }
+        }
+        else    // the children have children => nodeRoot is grandpa
+        {
+            //right child will always exist
+            if(!RightChildOfRoot->isLeaf()) // right Child has children
+            {
+                //right child has one or two child => starts evaluating from right subtree of right child
+                Node<T>* ansFromRightSubtreeOfRightSubtree = findKingToTheLeft(RightChildOfRoot->getRightChild());
+                if(ansFromRightSubtreeOfRightSubtree!= nullptr)
+                {
+                    return ansFromRightSubtreeOfRightSubtree;
+                }
+            
+                if(RightChildOfRoot->getLeftChild()!=nullptr)    // right Child has left child too
+                {
+                    Node<T>* ansFromLeftSubtreeOfRightSubtree = findKingToTheLeft(RightChildOfRoot->getLeftChild());
+                    if(ansFromLeftSubtreeOfRightSubtree!= nullptr)
+                    {
+                        return ansFromLeftSubtreeOfRightSubtree;
+                    }    
+
+                    if(RightChildOfRoot->getLeftChild()->canBeKing()){
+                        return RightChildOfRoot->getLeftChild();
+                    }
+                }
+            }
+            // either the right child did not have children or it just did not find a second born
+
+            // move on to the left child of the given root
+
+            if(LeftChildOfRoot ==nullptr)   // if there is not left child
+            {
+                return nullptr;     //return nothing
+            }
+            else    // if there is left child
+            {   
+                if(!LeftChildOfRoot->isLeaf())  // if then-> left child had children
+                {
+                    //if Left child has one or two children --> right one
+                    Node<T>* ansFromRightSubtreeOfLeftSubtree= findKingToTheLeft(LeftChildOfRoot->getRightChild());
+                    if(ansFromRightSubtreeOfLeftSubtree!=nullptr)
+                    {
+                        return ansFromRightSubtreeOfLeftSubtree;
+                    }
+                    
+                    if(LeftChildOfRoot->getLeftChild()!= nullptr)    //left child has left child too
+                    {
+                        Node<T>* ansFromLeftSubtreeOfLeftSubtree= findKingToTheLeft(LeftChildOfRoot->getLeftChild());
+                        if(ansFromLeftSubtreeOfLeftSubtree!=nullptr)
+                        {
+                            return ansFromLeftSubtreeOfLeftSubtree;
+                        }
+
+                        if (LeftChildOfRoot->getLeftChild()->canBeKing())
+                        {
+                            return LeftChildOfRoot->getLeftChild();
+                        }
+                        
+                        if (LeftChildOfRoot->canBeKing())   // if it can be king, take it
+                        {
+                            return LeftChildOfRoot;
+                        }
+
+                    }
+                }
+                else    // if then--> left child was a leaf (no children)
+                {
+                    if (LeftChildOfRoot->canBeKing())   // if it can be king, take it
+                    {
+                        return LeftChildOfRoot;
+                    }
+                }
+
+            }
+
+        }// the children have children => nodeRoot is grandpa
+
+   return nullptr;
+}//nodeRoot exists and is a father
+
 template<class T>
 Node<T>* Tree<T>::findKingDown(Node<T>* nodeRoot)
 {

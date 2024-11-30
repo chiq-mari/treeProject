@@ -128,3 +128,61 @@ int Node<T>::getHeight()
 {
    return this->height;
 }
+
+// added to find King 
+
+template<class T>   // only applied if node is not null
+bool Node<T>:: isLeaf()
+{
+    if(this->getLeftChild()==nullptr && this->getRightChild()==nullptr) // if it has no children
+    {
+        return true;    // is leaf!
+    }
+    else    // at least one children
+    {
+        return false;
+    }
+}
+
+template<class T>   // applied when node is not null
+bool Node<T> :: canBeKing()       //true if data isn't over 70
+{
+    return (this->getData().getAge()<=70 && this->getData().isAlive());
+}
+
+template<class T>
+bool Node<T> :: isGrandpa() //applied when node is not null;
+{
+    if(this->isLeaf())
+    {
+        return false;
+    }
+    else
+    {   
+        //only one child
+        if(this->getLeftChild()==nullptr)
+        {
+            if(this->getRightChild()->isLeaf()) // if only child is leaf
+            {
+                return false;       //--> this isn't grandpa
+            }
+            else
+            {
+                return true;            //--> is grandapa otherwise
+            }
+        }
+        else    //two children
+        {
+            if( this->getRightChild()->isLeaf() && this->getLeftChild()->isLeaf())  // if both children are leaves
+            {
+                return false;   //this isn't grandpa
+            }
+            else        //at least one isn't grandpa
+            {
+                return true;
+            }
+        }
+
+    }
+
+}

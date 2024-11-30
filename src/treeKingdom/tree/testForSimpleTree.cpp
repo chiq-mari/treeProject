@@ -119,5 +119,9 @@ int main()
     arbol.printing(k);
 
     
-    arbol.findKingToTheRight(k)->printNode();
+    //arbol.findKingToTheRight(k)->printNode();
+
+    //cout<<k->isGrandpa();
+
+    arbol.findKingToTheLeft(k)->printNode();
 }
