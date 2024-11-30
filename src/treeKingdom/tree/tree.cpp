@@ -248,7 +248,6 @@ void Tree<T>:: printAsTree()
     printAsTreeFromRoot(this->root, 0);
 }
 
-
 template<class T>
 void Tree<T>:: printing(Node<T>* nodeRoot)
 {
@@ -263,5 +262,91 @@ void Tree<T>:: printing(Node<T>* nodeRoot)
  {
  nodeRoot->getLeftChild()->printNode();
  }
- 
+}
+
+//finding king- related
+template<class T>
+Node<T>* Tree<T>:: getKing()
+{
+    return this->king;
+}
+
+template<class T>        
+void Tree<T>::setKing(Node<T>* king)
+{
+    this->king= king;
+}
+
+//finding king
+template<class T>
+Node<T>* Tree<T>:: findKingToTheRight(Node<T>* nodeRoot)
+{
+    if(nodeRoot==nullptr) //if there is no tree
+    {
+        return nullptr;
+    }
+    else    //if tree does exist
+    {
+        Node<T>* RightChildOfRoot= nodeRoot->getRightChild();
+        Node<T>* LeftChildOfRoot = nodeRoot->getLeftChild();
+
+        if(RightChildOfRoot==nullptr && LeftChildOfRoot==nullptr)   //if the old king did not have children
+        {
+            return nullptr; //-> no successor for the crown in his offspring
+        }
+        else    // if the old king did have children --> the first child (i.e the right one exists)
+        {
+            // first child alive and with appropriate age
+            if(RightChildOfRoot->getData().isAlive() &&  RightChildOfRoot->getData().getAge()<71)
+            {
+
+                return RightChildOfRoot;
+            }
+            // first child not alive or with age over 70
+            else
+            {   
+                //find king in the subtree of the first child
+                Node<T>* rootOpt1= findKingToTheRight(RightChildOfRoot);
+                if ( rootOpt1!=nullptr)
+                {
+                    return rootOpt1;
+                }
+                //if nothing was found in subtree of the right child
+                /*else  //search in subtree of left child
+                {
+                  //Node<T>* rootOpt2= findKingToTheRight(LeftChildOfRoot);
+                  //return rootOpt2;
+                  continue;
+                }
+                continue;*/
+            }
+            Node<T>* rootOpt2= findKingToTheRight(LeftChildOfRoot);
+            return rootOpt2;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+template<class T>
+Node<T>* Tree<T>:: findKingToTheLeft(Node<T>* nodeRoot)
+{
+
+}
+template<class T>
+Node<T>* Tree<T>::findKingDown(Node<T>* nodeRoot)
+{
+
+}
+
+template<class T>
+Node<T>*Tree<T>:: findKing()
+{
+
 }
