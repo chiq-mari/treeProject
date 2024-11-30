@@ -1,5 +1,5 @@
 id,name,last_name,gender,age,id_father,is_dead,was_king,is_king
-3205117,Tootsie,Bainbridge,Female,71,5688792,0,1,0
+3205117,Tootsie,Bainbridge,Male,71,5688792,0,1,0
 4690818,Ginelle,Kingsley,Female,70,3205117,0,1,0
 4911800,Ariadne,Marchenko,Female,69,3205117,0,0,0
 6171932,Roch,Jillard,Female,65,4911800,0,0,0
