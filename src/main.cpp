@@ -5,6 +5,9 @@
 #include <cctype>
 #include ".\treeKingdom\tree\tree.cpp"
 
+// controller = generate tree, change data panel,
+//modify field, newKingdomMember
+// view  == option panel
 using namespace std;
 
 void generateTree(Tree<Person> &); //function that will insert the people to the tree
@@ -24,12 +27,7 @@ int main()
 
     generateTree(myKTree);
     
-    /*Node<Person>* testingRoot = myKTree.findNodeInTree(9977012);
-    myKTree.printing(testingRoot);
-    cout<<endl;
-
-    optionPanel(myKTree);*/
-    newKingdomMember(myKTree);
+    optionPanel(myKTree);
 }
 /////////////////////////////////////////////////////////////////////////////////
 void generateTree(Tree<Person> &myTree)
@@ -121,6 +119,7 @@ void optionPanel(Tree<Person> &myTree)
     cout<<"Enter the number of your option here: ";
 
     cin>>option;
+    cout<<endl;
     switch(option)
     {
         case 1:
@@ -134,26 +133,15 @@ void optionPanel(Tree<Person> &myTree)
 
         case 3: 
             int personID;
-            cout<<endl<<"   Enter the ID of the person whose data you want to modify: ";
+            cout<<"   Enter the ID of the person whose data you want to modify: ";
             cin>>personID;
             cout<<endl;
             changeDataPanel(personID, myTree);
             break;
 
         case 4: 
-            cout<<"   Enter the ID of the new member of the family kingdom: ";
-            
+            newKingdomMember(myTree);
             break; 
-
-
-
-            // function to be filled
-
-
-
-
-
-
 
         case 5:
             cout<<"You'll exit this program now"<<endl;
@@ -171,6 +159,7 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
 {
     int changingData;
     string newData;
+    int newDataInt;
 
     if(myTree.findNodeInTree(idChangingPerson) == nullptr)
     {
@@ -212,21 +201,65 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
                 break;
                 }
             case 3:
+              {
+                do
                 {
-                cout<<"   Enter the new gender: ";
-                cin>>newData;
-                modifyField(idChangingPerson, changingData, newData);
-                cout<<endl;
-                break;
+                  cout<<"   Select updated gender: "<<endl;
+                  cout<<"   (Option 1) Female"<<endl<<"   (Option 2) Male"<<endl;
+                  cout<<"   Enter the number of your option here: ";
+                  cin>>newData;
+                  newDataInt = stoi(newData);
+                  switch(newDataInt)
+                  {
+                    case 1:
+                    {
+                      newData = "Female";
+                      break;
+                    }
+                  case 2:
+                    {
+                      newData = "Male";
+                      break;
+                    }
+                  default:
+                  {
+                    cout<<"      Invalid option. Please, try again."<<endl;
+                    newDataInt = 0;
+                    break;
+                  }
+                } 
                 }
+                while(newDataInt == 0);
+                cout<<endl;  // asks for gender as long as an invalid gender is entered
+                modifyField(idChangingPerson, changingData, newData);
+                break;
+              }
+
             case 4:
+              {
+                int fatherID;
+                int fatherAge;
+                string nameChangingPerson = myTree.findNodeInTree(idChangingPerson)->getData().getName();
+                do
                 {
-                cout<<"   Enter the new age: ";
-                cin>>newData;
-                modifyField(idChangingPerson, changingData, newData);
-                cout<<endl;
-                break;
+                  cout<<"   Enter the updated age: ";
+                  cin>>newData;
+                  newDataInt = stoi(newData);
+                  fatherID = myTree.findNodeInTree(idChangingPerson)->getData().getIdFather();
+                  fatherAge = myTree.findNodeInTree(fatherID)->getData().getAge();
+                  if(newDataInt>=fatherAge)
+                  {
+                    cout<<"      Invalid age. ";
+                    cout<<nameChangingPerson<<"'s father is "<<fatherAge<<" years old. "<<nameChangingPerson<<"'s age must be smaller."<<endl;
+                    cout<<"      Please, try again."<<endl;
+                  }
                 }
+                while(newDataInt>=fatherAge);
+                cout<<endl;  // asks for age as long as an invalid age is entered
+                modifyField(idChangingPerson, changingData, newData);
+                break;
+              }
+
             case 5:
                 {
                 newData = "1";  // since this person status could only be updated if the person dies
@@ -284,7 +317,9 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
   return;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////
-// functions to modify data
+
+
+// functions to modify data in csv file
 void modifyField(int idChPerson, int field, string newData)
 {
     fstream inPeople("../bin/data.csv", ios::in);
@@ -328,7 +363,7 @@ void modifyField(int idChPerson, int field, string newData)
         getline(s, isKingString, ',');
         
         if(foundData == false)
-        {  // check whether which field of information will be changed 
+        {  // check whether the person whose info is to be changed was already found
           switch(field)  // check whether we are in the line of the person whose information will be changed
           {              // change the  information field and whether the data was changed
             case 1: 
@@ -357,7 +392,7 @@ void modifyField(int idChPerson, int field, string newData)
                 foundData = true;
               }
               break;
-                
+
             case 4: 
               if(stoi(idString) == idChPerson)
               {
@@ -366,6 +401,14 @@ void modifyField(int idChPerson, int field, string newData)
                 foundData = true;
                 }
                 break;
+
+
+
+
+
+
+
+
 
             case 5: 
               if(stoi(idString) == idChPerson)
@@ -420,6 +463,11 @@ void modifyField(int idChPerson, int field, string newData)
     newInPeople.close();
     newOutPeople.close();  
 }
+
+
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 void newKingdomMember(Tree<Person> &myTree)
 {
