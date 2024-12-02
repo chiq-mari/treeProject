@@ -36,4 +36,9 @@ class Node{
         //for both
         Node<T>* getChildren(int);  // if int is 0--> left child, int=1-->rigth child
         void setChildren(Node<T>*,Node<T>*); //first sets left, then right
+
+        // added to find king
+        bool isLeaf();
+        bool canBeKing();
+        bool isGrandpa();
 };

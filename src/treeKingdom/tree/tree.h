@@ -3,6 +3,7 @@ template<class T>
 class Tree{
     private:
         Node<T>* root=nullptr; //unico atributo root
+        Node<T>* king=nullptr;  //node of king in actual tree
 
         //inserta un dato tipo T, en arbol de raiz (ptr a nodo en arg)
         //y retorna un ptr al nodo 
@@ -28,4 +29,22 @@ class Tree{
         //recorrido
         Node<T>* findNodeFromRoot(Node<T>*, int);
         Node<T>* findNodeInTree(int);
+
+        //for king
+        Node<T>* getKing();
+        void setKing(Node<T>*);
+        //finding king
+
+        bool isLeaf(Node<T>*);
+
+        Node<T>* findKingToTheRight(Node<T>*);
+        Node<T>* findKingToTheLeft(Node<T>*);
+        Node<T>* findKingDown(Node<T>*);
+        Node<T>* findKingG1(); //  general one prioritizing firstBorns
+        
+
+        // free allocated memory for the whole tree
+        void emptiesTreeFromRoot(Node<T>*&);
+        void emptiesWholeTree();
+        void setRoot(Node<T>*);
 };
