@@ -41,5 +41,7 @@ class Tree{
         Node<T>* findKingToTheLeft(Node<T>*);
         Node<T>* findKingDown(Node<T>*);
 
-        Node<T>* findKing();
+        Node<T>* findKingG1(); //  general one prioritizing firstBorns
+        Node<T>* findKing2(Node<T>*); // if the King's grandparent is within the tree
+        Node<T>* findKing(Node<T>*);  // general one
 };

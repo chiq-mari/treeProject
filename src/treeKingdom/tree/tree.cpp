@@ -277,7 +277,7 @@ void Tree<T>::setKing(Node<T>* king)
     this->king= king;
 }
 
-//finding king
+//finding king  // prioritize firstBorns
 template<class T>
 Node<T>* Tree<T>:: findKingToTheRight(Node<T>* nodeRoot)
 {
@@ -326,6 +326,143 @@ Node<T>* Tree<T>:: findKingToTheRight(Node<T>* nodeRoot)
     }
 }
 
+// finding king when there is no firstBorn in tree
+template<class T>
+Node<T>* Tree<T>:: findKingToTheLeft(Node<T>* nodeRoot)
+{   
+    Node<T>* rightChildOfRoot= nodeRoot->getRightChild();
+    Node<T>* leftChildOfRoot = nodeRoot->getLeftChild();
+
+    // root does not have children
+    if(rightChildOfRoot==nullptr)
+    {
+        return nullptr;
+    }
+    //root has children
+            //children, but not grandchildren
+    if(!nodeRoot->isGrandpa() && leftChildOfRoot!= nullptr) // if second child exists
+    {
+        if(leftChildOfRoot->canBeKing()){
+            return leftChildOfRoot;
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+            //children but no grandChildren
+    if(!nodeRoot->isGrandpa() && leftChildOfRoot== nullptr) //secondChild does not exist
+    {
+        return nullptr;
+    }
+
+    // nodeRoot has grandChildren
+
+    if(nodeRoot->isGrandpa())
+    {
+        if(!rightChildOfRoot->isLeaf()) //if firstChild has offspring, make search there
+        {
+            Node<T>* ans1= findKingToTheLeft(rightChildOfRoot);
+
+            if(ans1!=nullptr)
+            {
+                return ans1;
+            }
+        } 
+        // first child is leaf or nothing was found in it's subtree  
+        if (leftChildOfRoot!= nullptr) // if there is second Child
+        {
+            if(leftChildOfRoot->canBeKing())
+            {
+                return leftChildOfRoot;
+            }
+            else
+            {
+                Node<T>* ans1= findKingToTheLeft(leftChildOfRoot);
+                if(ans1!=nullptr)
+                {
+                    return ans1;
+                }
+            }
+            return nullptr;
+        }
+        else    // if there is not secondChild
+        {
+            return nullptr;
+        }
+    }
+
+    return nullptr;
+}
+
+//find king as if this were in offspring of the nodeRoot given
+template<class T>
+Node<T>* Tree<T>::findKingDown(Node<T>* nodeRoot)
+{   
+    Node<T>* kingInOffspring = findKingToTheRight(nodeRoot);    // search for king as some FirstBorn
+    
+    if(kingInOffspring==nullptr)    // if it wasn't found--> search for it as some secondChild
+    {
+        kingInOffspring=findKingToTheLeft(nodeRoot);  
+    }
+
+    return kingInOffspring; // if firstBorn had been found-> return it / if second one had or hadn't-> return it
+}
+
+
+template<class T>
+Node<T>*Tree<T>:: findKingG1()  // general one prioritizing firstBorns
+{   
+    return findKingDown(this->root);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 template<class T>
 Node<T>* Tree<T>:: findKingToTheLeft(Node<T>* nodeRoot)
 {
@@ -441,18 +578,6 @@ Node<T>* Tree<T>:: findKingToTheLeft(Node<T>* nodeRoot)
             }
 
         }// the children have children => nodeRoot is grandpa
-
    return nullptr;
 }//nodeRoot exists and is a father
-
-template<class T>
-Node<T>* Tree<T>::findKingDown(Node<T>* nodeRoot)
-{
-
-}
-
-template<class T>
-Node<T>*Tree<T>:: findKing()
-{
-
-}
+*/
