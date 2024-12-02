@@ -86,39 +86,49 @@ int main()
     arbol.insert(person4);
     arbol.insert(person5);
     arbol.insert(person6);
-    arbol.insert(person7);
-    arbol.insert(person8);
-    arbol.insert(person9);
-    arbol.insert(person10);
+    //arbol.insert(person7);
+    //arbol.insert(person8);
+    //arbol.insert(person9);
+    //arbol.insert(person10);
     arbol.insert(person11);
-    arbol.insert(person12);
-    arbol.insert(person13);
-    arbol.insert(person14);
-    arbol.insert(person15);
+    //arbol.insert(person12);
+    //arbol.insert(person13);
+    //arbol.insert(person14);
+    //arbol.insert(person15);
 
-    arbol.insert(person16);
-    arbol.insert(person17);
-    arbol.insert(person18);
-    arbol.insert(person19);
-    arbol.insert(person20);
-    arbol.insert(person21);
-    arbol.insert(person22);
-    arbol.insert(person23);
-    arbol.insert(person24);
-    arbol.insert(person25);
-    arbol.insert(person26);
-    arbol.insert(person27);
-    arbol.insert(person28);
-    arbol.insert(person29);
-    arbol.insert(person30);
-    arbol.insert(person31);
+    //arbol.insert(person16);
+    //arbol.insert(person17);
+    //arbol.insert(person18);
+    //arbol.insert(person19);
+    //arbol.insert(person20);
+    //arbol.insert(person21);
+    //arbol.insert(person22);
+    //arbol.insert(person23);
+    //arbol.insert(person24);
+    //arbol.insert(person25);
+    //arbol.insert(person26);
+    //arbol.insert(person27);
+    //arbol.insert(person28);
+    //arbol.insert(person29);
+    //arbol.insert(person30);
+    //arbol.insert(person31);
     
 
-    Node<Person>* k= arbol.findNodeInTree(3205117);
+    Node<Person>* k= arbol.findNodeInTree(4911800);
 
-    arbol.printing(k);
+    //arbol.printing(k);
 
     
-    arbol.findKingToTheLeft(k)->printNode();
+    //arbol.findKingG1()->printNode();
 
+    arbol.printAsTree();
+
+    arbol.emptiesWholeTree();
+
+    cout<<"prinying";
+    arbol.printAsTree();
+
+    cout<<"1";
+
+    cout<<arbol.isEmpty();
 }

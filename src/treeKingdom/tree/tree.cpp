@@ -233,7 +233,7 @@ void Tree<T>:: printAsTreeFromRoot(Node<T>* node, int cont)
     {
         printAsTreeFromRoot(node->getRightChild(), cont+1);
         for(int i=0; i<cont; i++){
-            cout<<"   ";
+            cout<<"             ";
         }
         node->printNode();
         cout<<endl;
@@ -409,15 +409,55 @@ Node<T>* Tree<T>::findKingDown(Node<T>* nodeRoot)
     return kingInOffspring; // if firstBorn had been found-> return it / if second one had or hadn't-> return it
 }
 
-
 template<class T>
 Node<T>*Tree<T>:: findKingG1()  // general one prioritizing firstBorns
 {   
     return findKingDown(this->root);
 }
 
+/////clear tree
+template<class T>
+void Tree<T>:: emptiesTreeFromRoot(Node<T>*& nodeRoot)
+{
+   if (nodeRoot==nullptr)
+   {
+    return;
+   }
 
+   // root exists without children
+   if (nodeRoot->isLeaf())
+   {
+    delete nodeRoot;
+    nodeRoot=nullptr;
+    return;
+   }
 
+    Node<T>* child1= nodeRoot->getRightChild();
+    Node<T>* child2= nodeRoot->getLeftChild();
+    //root exists with children
+   emptiesTreeFromRoot(child1);
+   if (child2!=nullptr)
+   {
+   emptiesTreeFromRoot(child2);
+   }
+
+    delete nodeRoot;
+    nodeRoot=nullptr;
+    return;
+}
+
+template<class T>
+void Tree<T>:: setRoot(Node<T>* newRoot)
+{
+    this->root= newRoot;
+}
+
+template<class T>
+void Tree<T>:: emptiesWholeTree()
+{
+    emptiesTreeFromRoot(this->root);
+    setRoot(nullptr);
+}
 
 
 

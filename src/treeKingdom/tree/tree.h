@@ -40,8 +40,11 @@ class Tree{
         Node<T>* findKingToTheRight(Node<T>*);
         Node<T>* findKingToTheLeft(Node<T>*);
         Node<T>* findKingDown(Node<T>*);
-
         Node<T>* findKingG1(); //  general one prioritizing firstBorns
-        Node<T>* findKing2(Node<T>*); // if the King's grandparent is within the tree
-        Node<T>* findKing(Node<T>*);  // general one
+        
+
+        // free allocated memory for the whole tree
+        void emptiesTreeFromRoot(Node<T>*&);
+        void emptiesWholeTree();
+        void setRoot(Node<T>*);
 };
