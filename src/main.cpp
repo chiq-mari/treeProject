@@ -15,6 +15,8 @@ void changeDataPanel(int, Tree<Person>&);
 
 // modify personal information field options in csv
 void modifyField(int, int, string);
+// function to add a new member to the kingdom
+void newKingdomMember(Tree<Person>&);
 
 int main()
 {
@@ -22,12 +24,14 @@ int main()
 
     generateTree(myKTree);
     
-    Node<Person>* testingRoot = myKTree.findNodeInTree(9977012);
+    /*Node<Person>* testingRoot = myKTree.findNodeInTree(9977012);
     myKTree.printing(testingRoot);
+    cout<<endl;
 
-    optionPanel(myKTree);
+    optionPanel(myKTree);*/
+    newKingdomMember(myKTree);
 }
-
+/////////////////////////////////////////////////////////////////////////////////
 void generateTree(Tree<Person> &myTree)
 {
     fstream inPeople("../bin/data.csv", ios::in);
@@ -56,6 +60,7 @@ void generateTree(Tree<Person> &myTree)
     string isKingString;
     int isKingInt;
     bool isKing;
+
     string dataLine;  // csv lineholder
     getline(inPeople, dataLine); // file header
     Person personTree; // person holder
@@ -90,7 +95,7 @@ void generateTree(Tree<Person> &myTree)
 
     inPeople.close();
 }
-
+//////////////////////////////////////////////////////////////////////////////////
 void optionPanel(Tree<Person> &myTree)
 {
     int option;
@@ -98,12 +103,21 @@ void optionPanel(Tree<Person> &myTree)
 
   do
   {
-    cout<<"Tell us: What would you like to do? "<<endl;
-    cout<<"To know: Who is the actual King? (Option 1)"<<endl;
-    cout<<"Visualize the crown's sucession line from actual King (Option 2)"<<endl;
-    cout<<"Modify data in the tree (Option 3)"<<endl;
-    cout<<"Add new member to the kingdom (Option 4)"<<endl;
-    cout<<"Exit this program (Option 5)"<<endl;
+    for(int i = 0; i<84; i++)
+    {
+      cout<<"_";
+    }
+    cout<<endl;
+    for(int i = 0; i<25; i++)
+    {
+      cout<<" ";
+    }
+    cout<<"Tell us: What would you like to do?"<<endl;
+    cout<<"(Option 1) To know: Who is the actual King?"<<endl;
+    cout<<"(Option 2) Visualize the crown's sucession line from actual King"<<endl;
+    cout<<"(Option 3) Modify data in the tree"<<endl;
+    cout<<"(Option 4) Add new member to the kingdom"<<endl;
+    cout<<"(Option 5) Exit this program"<<endl;
     cout<<"Enter the number of your option here: ";
 
     cin>>option;
@@ -120,15 +134,26 @@ void optionPanel(Tree<Person> &myTree)
 
         case 3: 
             int personID;
-            cout<<"Enter the ID of the person whose data you want to modify: ";
+            cout<<endl<<"   Enter the ID of the person whose data you want to modify: ";
             cin>>personID;
             cout<<endl;
             changeDataPanel(personID, myTree);
             break;
 
         case 4: 
-            cout<<"So, there is a new member in this kingdom eh?"<<endl;
+            cout<<"   Enter the ID of the new member of the family kingdom: ";
+            
             break; 
+
+
+
+            // function to be filled
+
+
+
+
+
+
 
         case 5:
             cout<<"You'll exit this program now"<<endl;
@@ -141,7 +166,7 @@ void optionPanel(Tree<Person> &myTree)
   }
   while(true); 
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////
 void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
 {
     int changingData;
@@ -154,10 +179,10 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
     }
     else 
     {
-        cout<<"You have entered ";
+        cout<<"          ** You have entered ";
         myTree.findNodeInTree(idChangingPerson)->getData().printPerson();
-        cout<<"'s ID"<<endl;
-        cout<<"Please tell us which of the following fields of their personal information you would like to modify:"<<endl;
+        cout<<"'s ID **"<<endl<<endl;
+        cout<<"   Please tell us which of the following fields of their personal information you would like to modify:"<<endl<<endl;
         cout<<"(Option 1) Name"<<endl;
         cout<<"(Option 2) Last Name"<<endl;
         cout<<"(Option 3) Gender"<<endl;
@@ -172,7 +197,7 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
         {
             case 1:
                {
-                cout<<"Enter the new name: ";
+                cout<<"   Enter the new name: ";
                 cin>>newData;
                 modifyField(idChangingPerson, changingData, newData);
                 cout<<endl;
@@ -180,7 +205,7 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
                }
             case 2:
                 {
-                cout<<"Enter the new last name: ";
+                cout<<"   Enter the new last name: ";
                 cin>>newData;
                 modifyField(idChangingPerson, changingData, newData);
                 cout<<endl;
@@ -188,7 +213,7 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
                 }
             case 3:
                 {
-                cout<<"Enter the new gender: ";
+                cout<<"   Enter the new gender: ";
                 cin>>newData;
                 modifyField(idChangingPerson, changingData, newData);
                 cout<<endl;
@@ -196,7 +221,7 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
                 }
             case 4:
                 {
-                cout<<"Enter the new age: ";
+                cout<<"   Enter the new age: ";
                 cin>>newData;
                 modifyField(idChangingPerson, changingData, newData);
                 cout<<endl;
@@ -256,8 +281,9 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
                 }
         }
     }
+  return;
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////
 // functions to modify data
 void modifyField(int idChPerson, int field, string newData)
 {
@@ -302,79 +328,78 @@ void modifyField(int idChPerson, int field, string newData)
         getline(s, isKingString, ',');
         
         if(foundData == false)
-        {
-            // check whether which field of information will be changed 
-           switch(field)  // check whether we are in the line of the person whose information will be changed
-           {              // change the  information field and whether the data was changed
-               case 1: 
-                  if(stoi(idString) == idChPerson)
-                  {
-                    name = newData;
-                    cout<<"Name updated succesfully"<<endl;
-                    foundData = true;
-                  }
-                  break;
+        {  // check whether which field of information will be changed 
+          switch(field)  // check whether we are in the line of the person whose information will be changed
+          {              // change the  information field and whether the data was changed
+            case 1: 
+              if(stoi(idString) == idChPerson)
+              {
+                name = newData;
+                cout<<"Name updated succesfully"<<endl;
+                foundData = true;
+              }
+              break;
                 
-                case 2: 
-                   if(stoi(idString) == idChPerson)
-                  {
-                    lastName = newData;
-                    cout<<"Last name updated succesfully"<<endl;
-                    foundData = true;
-                  }
-                  break;
+            case 2: 
+              if(stoi(idString) == idChPerson)
+              {
+                lastName = newData;
+                cout<<"Last name updated succesfully"<<endl;
+                foundData = true;
+              }
+              break;
 
-                case 3: 
-                   if(stoi(idString) == idChPerson)
-                  {
-                    gender = newData;
-                    cout<<"Gender updated succesfully"<<endl;
-                    foundData = true;
-                  }
-                  break;
+            case 3: 
+              if(stoi(idString) == idChPerson)
+              {
+                gender = newData;
+                cout<<"Gender updated succesfully"<<endl;
+                foundData = true;
+              }
+              break;
                 
-                case 4: 
-                   if(stoi(idString) == idChPerson)
-                  {
-                    ageString = newData;
-                    cout<<"Age updated succesfully"<<endl;
-                    foundData = true;
-                  }
-                  break;
+            case 4: 
+              if(stoi(idString) == idChPerson)
+              {
+                ageString = newData;
+                cout<<"Age updated succesfully"<<endl;
+                foundData = true;
+                }
+                break;
 
-                case 5: 
-                   if(stoi(idString) == idChPerson)
-                  {
-                    isDeadString = newData; 
-                    cout<<"Updated to be dead succesfully"<<endl;
-                    foundData = true;
-                  }
-                  break;
+            case 5: 
+              if(stoi(idString) == idChPerson)
+              {
+                isDeadString = newData; 
+                cout<<"Updated to be dead succesfully"<<endl;
+                foundData = true;
+              }
+              break;
 
-                case 6:
-                   if(stoi(idString) == idChPerson)
-                  {
-                    wasKingString = newData;
-                    cout<<"Was king field updated succesfully"<<endl;
-                    foundData = true;
-                  }
-                  break;
+            case 6:
+              if(stoi(idString) == idChPerson)
+              {
+                wasKingString = newData;
+                cout<<"Was king field updated succesfully"<<endl;
+                foundData = true;
+              }
+              break;
 
-                case 7: 
-                   if(stoi(idString) == idChPerson)
-                  {
-                    isKingString = newData;
-                    foundData = true;
-                  }
-                  break;
+            case 7: 
+              if(stoi(idString) == idChPerson)
+              {
+                isKingString = newData;
+                foundData = true;
+              }
+              break;
                 
-                default: 
-                   break;
+            default: 
+              break;
            }
         }
         outPeople<<idString<<","<<name<<","<<lastName<<","<<gender<<","<<ageString<<","<<idFatherString<<","<<isDeadString<<","<<wasKingString<<","<<isKingString;
     }  
-
+    
     inPeople.close();
     outPeople.close();  
 
@@ -395,5 +420,149 @@ void modifyField(int idChPerson, int field, string newData)
     newInPeople.close();
     newOutPeople.close();  
 }
+///////////////////////////////////////////////////////////////////////////////////////////////
+void newKingdomMember(Tree<Person> &myTree)
+{
+  fstream outPeople("../bin/data.csv", ios::app);
 
+  if(!outPeople.is_open())
+  {
+    cout<<"The requested file could not be open"<<endl;
+    return;
+  }
+  string idString;
+  int id;
+  string name;
+  string lastName;
+  string gender;
+  int genderInt;
+  string ageString;
+  int age;
+  string idFatherString;
+  int idFather;
+  bool isDead;
+  bool wasKing;
+  bool isKing;
+  
+  Person personTree;
+  Node<Person>* tempHolder = nullptr;
 
+  do
+  {
+    cout<<"   Enter the ID of the new family kingdom member: ";
+    cin>>idString;
+    id = stoi(idString);
+    tempHolder = myTree.findNodeInTree(id);
+    if(tempHolder != nullptr)
+    {
+      cout<<"      Such ID can't be used, because it already belongs to a person in this kingdom."<<endl;
+      cout<<"      Please, try again."<<endl;
+    }
+  }
+  while(tempHolder != nullptr);
+  cout<<endl;  // asks for ID as long as it belongs to a person in the kingdom
+
+  do
+  {
+    cout<<"   Enter the Father ID of the new family kingdom member: ";
+    cin>>idFatherString;
+    idFather = stoi(idFatherString);
+    tempHolder = myTree.findNodeInTree(idFather);
+    int numberChildren = 0;
+
+    if(tempHolder == nullptr)
+    {
+      cout<<"      Such ID can't be used, because it does not belong to a person in this kingdom."<<endl;
+      cout<<"      Please, try again."<<endl;
+    }
+    else
+    {
+      if(tempHolder->getRightChild() != nullptr)
+      {
+        numberChildren++;
+      }
+      if(tempHolder->getLeftChild() != nullptr)
+      {
+        numberChildren++;
+      }
+
+      if(numberChildren>1)
+      {
+        cout<<"      Invalid ID. The ID entered belongs to a person with 2 children."<<endl;
+        cout<<"      Please, try again."<<endl;
+        tempHolder = nullptr;
+      }
+
+    }
+  }
+  while (tempHolder == nullptr); // asks for  Father ID as long as it does not belongs to a person in the kingdom
+  cout<<endl;   // and the person has not had two children
+
+  cout<<"   Enter the name of the new member of the family kingdom: ";
+  cin>>name;
+  cout<<endl;  // Name 
+
+  cout<<"   Enter the last name of the new member of the family kingdom: ";
+  cin>>lastName;
+  cout<<endl;   // Last Name
+  
+  do
+  {
+    cout<<"   Which of the following is the gender of the new family kingdom member? (Option 1) Female, (Option 2) Male"<<endl;
+    cout<<"   Enter the number of your option here: ";
+    cin>>gender;
+    genderInt = stoi(gender);
+
+      switch(genderInt)
+      {
+        case 1:
+        {
+          gender = "Female";
+          break;
+        }
+        case 2:
+        {
+          gender = "Male";
+          break;
+        }
+        default:
+        {
+          cout<<"      Invalid option. Please, try again."<<endl;
+          genderInt = 0;
+          break;
+        }
+      } 
+  }
+  while(genderInt == 0);
+  cout<<endl;  // asks for gender as long as an invalid gender is entered
+
+ int fatherAge;
+  do
+  {
+    cout<<"   Enter the age of the new family kingdom member: ";
+    cin>>ageString;
+    age = stoi(ageString);
+    tempHolder = myTree.findNodeInTree(idFather);
+    fatherAge = tempHolder->getData().getAge();
+    if(age>=fatherAge)
+    {
+      cout<<"      Invalid age. ";
+      cout<<name<<"'s father is "<<fatherAge<<" years old. "<<name<<"'s age must be smaller."<<endl;
+      cout<<"      Please, try again."<<endl;
+    }
+  }
+  while(age>=fatherAge);
+  cout<<endl;  // asks for age as long as an invalid age is entered
+
+  isDead = 0; // we assume the new fam member is alive
+  wasKing = 0; // we assume the new fam member has not been king
+  isKing = 0; // we assume the new fam member is not the current king
+
+  personTree = {id, name, lastName, gender, age, idFather, isDead, wasKing, isKing};
+
+  outPeople<<endl;
+  outPeople<<idString<<","<<name<<","<<lastName<<","<<gender<<","<<age<<","<<idFatherString<<","<<isDead<<","<<wasKing<<","<<isKing;
+  outPeople.close();
+
+  myTree.insert(personTree);
+}
