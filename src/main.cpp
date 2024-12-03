@@ -605,25 +605,6 @@ void newKingdomMember(Tree<Person> &myTree)
 
 
 
-void successionLine()
-{
- Tree<Person> alternativeTree;
- generateTree(alternativeTree);
 
- Node<Person>* kingHolder; 
- kingHolder = alternativeTree.findKingG1();
-
- while(kingHolder != nullptr)
- {
-  kingHolder->getData().printPerson();
-  kingHolder->getData().changeToDead();
-  
-  kingHolder = alternativeTree.findKingG1();
-  if(kingHolder != nullptr)
-  {
-    cout<<" -> ";
-  }
- }
-}
 
 

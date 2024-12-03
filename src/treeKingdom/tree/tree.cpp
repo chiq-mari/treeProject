@@ -460,6 +460,31 @@ void Tree<T>:: emptiesWholeTree()
 }
 
 
+template<class T>
+void Tree<T>:: changeNodeToDead(Node<T>*& node)
+{
+    node->getAddressOfT()->changeToDead();
+}
+template<class T>
+void Tree<T>:: successionLine()
+{
+    setKing(findKingG1());
+
+
+    if(this->king==nullptr)
+    {
+        return;
+    }
+    cout<<"-->";
+
+    this->king->printNode();
+
+    this->king->changeToDead();
+    
+    setKing(findKingG1());
+
+    successionLine();
+}
 
 
 
