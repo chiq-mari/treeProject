@@ -21,26 +21,18 @@ void modifyField(int, int, string);
 // function to add a new member to the kingdom
 void newKingdomMember(Tree<Person>&);
 
+// function to show crown's succession line 
+void successionLine();
+
 int main()
 {
     Tree<Person> myKTree;
 
     generateTree(myKTree);
-    
-    //optionPanel(myKTree);
-    myKTree.printing(myKTree.findNodeInTree(15088813));
-    cout<<endl;
-    myKTree.printing(myKTree.findNodeInTree(6577415));
-    cout<<endl;
-    myKTree.printing(myKTree.findNodeInTree(29076978));
-    cout<<endl;
-    myKTree.printing(myKTree.findNodeInTree(30355203));
-    cout<<endl;
-    myKTree.printing(myKTree.findNodeInTree(29182614));
-    cout<<endl;
-    myKTree.printing(myKTree.findNodeInTree(30392967));
-    cout<<endl;
-    myKTree.printing(myKTree.findNodeInTree(29182614));
+
+    // WELCOMING MESSAGE
+
+    optionPanel(myKTree);
 }
 /////////////////////////////////////////////////////////////////////////////////
 void generateTree(Tree<Person> &myTree)
@@ -136,13 +128,15 @@ void optionPanel(Tree<Person> &myTree)
     switch(option)
     {
         case 1:
-            cout<<"I currently don't know the actual king"<<endl<<endl;
+            cout<<"The current king is ";
+            myTree.findKingG1()->getData().printPerson();
+            cout<<endl<<endl;
             break;
 
         case 2: 
-            cout<<"I currently can't tell you the crown's succesion line in the kingdom"<<endl<<endl;;
+            successionLine();
+            cout<<endl<<endl;;
             break;
-
 
         case 3: 
             int personID;
@@ -608,3 +602,28 @@ void newKingdomMember(Tree<Person> &myTree)
 
   myTree.insert(personTree);
 }
+
+
+
+void successionLine()
+{
+ Tree<Person> alternativeTree;
+ generateTree(alternativeTree);
+
+ Node<Person>* kingHolder; 
+ kingHolder = alternativeTree.findKingG1();
+
+ while(kingHolder != nullptr)
+ {
+  kingHolder->getData().printPerson();
+  kingHolder->getData().changeToDead();
+  
+  kingHolder = alternativeTree.findKingG1();
+  if(kingHolder != nullptr)
+  {
+    cout<<" -> ";
+  }
+ }
+}
+
+
