@@ -20,9 +20,8 @@ void changeDataPanel(int, Tree<Person>&);
 void modifyField(int, int, string);
 // function to add a new member to the kingdom
 void newKingdomMember(Tree<Person>&);
-
-// function to show crown's succession line 
-void successionLine();
+//modify king field in csv
+void isKingInFile(int, string);
 
 int main()
 {
@@ -32,7 +31,9 @@ int main()
 
     // WELCOMING MESSAGE
 
-    optionPanel(myKTree);
+    //optionPanel(myKTree);
+    isKingInFile(4690818, "0");
+    isKingInFile(7652970, "1");
 }
 /////////////////////////////////////////////////////////////////////////////////
 void generateTree(Tree<Person> &myTree)
@@ -134,9 +135,14 @@ void optionPanel(Tree<Person> &myTree)
             break;
 
         case 2: 
-            successionLine();
-            cout<<endl<<endl;;
+          {
+            Tree<Person> alternativeTree;
+            generateTree(alternativeTree);
+            alternativeTree.successionLine();
+            alternativeTree.emptiesWholeTree();
+            cout<<endl<<endl;
             break;
+          }
 
         case 3: 
             int personID;
@@ -269,6 +275,14 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
                 while(newDataInt>=fatherAge);
                 cout<<endl;  // asks for age as long as an invalid age is entered
                 modifyField(idChangingPerson, changingData, newData);
+
+                if(myTree.findNodeInTree(idChangingPerson)->getData().isActualKing())
+                {
+                  if(newDataInt>70)
+                  {
+                    modifyField(idChangingPerson, 6, "1");
+                  }
+                }
                 myTree.emptiesWholeTree();
                 generateTree(myTree);
                 break;
@@ -603,7 +617,79 @@ void newKingdomMember(Tree<Person> &myTree)
   myTree.insert(personTree);
 }
 
+void isKingInFile(int idChPerson, string isKingSt)
+{
+  fstream inPeople("../bin/data.csv", ios::in);
+  fstream outPeople("../bin/alternativeData.csv", ios::out);
+    
+    if(!inPeople.is_open())
+    {
+      cout<<"The requested file could not be open"<<endl;
+      return;
+    }
+    // declaring holders  
+    string idString;
+    string name;
+    string lastName;
+    string gender;
+    string ageString;
+    string idFatherString;
+    string isDeadString;
+    string wasKingString;
+    string isKingString;
+    string dataLine;  // csv lineholder
 
+    getline(inPeople, dataLine); // file header
+    outPeople<<dataLine;
+    bool foundData = false; 
+
+    Person personTree;
+    while(!inPeople.eof())
+    {   
+        outPeople<<endl;
+        getline(inPeople, dataLine);
+        stringstream s(dataLine);
+        getline(s, idString, ',');
+        getline(s, name, ',');
+        getline(s, lastName, ',');
+        getline(s, gender, ',');
+        getline(s, ageString, ',');
+        getline(s, idFatherString, ',');
+        getline(s, isDeadString, ',');
+        getline(s, wasKingString, ',');
+        getline(s, isKingString, ',');
+        
+        if(foundData == false)
+        {  // check whether the person whose info is to be changed was already found
+          if(stoi(idString) == idChPerson)
+          {
+            isKingString = isKingSt;
+            foundData = true;
+          }
+        }
+        outPeople<<idString<<","<<name<<","<<lastName<<","<<gender<<","<<ageString<<","<<idFatherString<<","<<isDeadString<<","<<wasKingString<<","<<isKingString;
+    }  
+    
+    inPeople.close();
+    outPeople.close();  
+
+    fstream newOutPeople("../bin/data.csv", ios::out);
+    fstream newInPeople("../bin/alternativeData.csv", ios::in);
+
+    getline(newInPeople, dataLine);
+    newOutPeople<<dataLine;
+
+    do
+    {
+        newOutPeople<<endl;
+        getline(newInPeople, dataLine);
+        newOutPeople<<dataLine;
+    }
+    while (!newInPeople.eof());
+
+    newInPeople.close();
+    newOutPeople.close();
+}
 
 
 
