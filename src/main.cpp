@@ -31,9 +31,8 @@ int main()
 
     // WELCOMING MESSAGE
 
-    //optionPanel(myKTree);
-    isKingInFile(4690818, "0");
-    isKingInFile(7652970, "1");
+    optionPanel(myKTree);
+   
 }
 /////////////////////////////////////////////////////////////////////////////////
 void generateTree(Tree<Person> &myTree)
@@ -274,29 +273,56 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
                 }
                 while(newDataInt>=fatherAge);
                 cout<<endl;  // asks for age as long as an invalid age is entered
-                modifyField(idChangingPerson, changingData, newData);
+                modifyField(idChangingPerson, changingData, newData); // modifies age
 
                 if(myTree.findNodeInTree(idChangingPerson)->getData().isActualKing())
-                {
-                  if(newDataInt>70)
+                {   // in case that the person is a king
+                  if(newDataInt>70) // and their new age is greater than 70
                   {
-                    modifyField(idChangingPerson, 6, "1");
+                    modifyField(idChangingPerson, 6, "1"); // modify to wasKing true
+                    isKingInFile(idChangingPerson, "0");  // and isKing false
                   }
                 }
                 myTree.emptiesWholeTree();
                 generateTree(myTree);
+
+                // now we have to update the new king 
+                Node<Person>* newKingHolder = myTree.findKingG1(); // find the new king
+                int newKingID = newKingHolder->getData().getId();  // and their ID
+                isKingInFile(newKingID, "1"); // and change in csv to be king
+                myTree.emptiesWholeTree();
+                generateTree(myTree); // update Tree
                 break;
               }
 
             case 5:
-                {
+              {
                 newData = "1";  // since this person status could only be updated if the person dies
                 modifyField(idChangingPerson, changingData, newData);
-                myTree.emptiesWholeTree();
-                generateTree(myTree);
-                cout<<endl;
-                break;
+
+                if(myTree.findNodeInTree(idChangingPerson)->getData().isActualKing())
+                {   // in case that the person is a king
+                  isKingInFile(idChangingPerson, "0");  // modify isKing to false
+                  modifyField(idChangingPerson, 6, "1"); // modify to wasKing true
+                
+                  myTree.emptiesWholeTree();
+                  generateTree(myTree);
+
+                  // now we have to update the new king 
+                  Node<Person>* newKingHolder = myTree.findKingG1(); // find the new king
+                  int newKingID = newKingHolder->getData().getId();  // and their ID
+                  isKingInFile(newKingID, "1"); // and change in csv to be king
+                  myTree.emptiesWholeTree();
+                  generateTree(myTree); // update Tree
+                  cout<<endl;
                 }
+                else
+                {
+                  myTree.emptiesWholeTree();
+                  generateTree(myTree); // update Tree
+                }
+                break;
+              }
             case 6:
                 {
                   cout<<endl<<"Was ";
