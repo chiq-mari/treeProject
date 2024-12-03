@@ -23,18 +23,19 @@ void newKingdomMember(Tree<Person>&);
 //modify king field in csv
 void isKingInFile(int, string);
 
+void welcomeMessage();
+
+void goodbyeMessage();
+
 int main()
 {
+    welcomeMessage();
     Tree<Person> myKTree;
-
     generateTree(myKTree);
-
-    // WELCOMING MESSAGE
-
-    optionPanel(myKTree);
-   
+    optionPanel(myKTree); 
+    goodbyeMessage();
 }
-/////////////////////////////////////////////////////////////////////////////////
+
 void generateTree(Tree<Person> &myTree)
 {
     fstream inPeople("../bin/data.csv", ios::in);
@@ -106,6 +107,7 @@ void optionPanel(Tree<Person> &myTree)
 
   do
   {
+    cout<<endl;
     for(int i = 0; i<84; i++)
     {
       cout<<"_";
@@ -717,6 +719,73 @@ void isKingInFile(int idChPerson, string isKingSt)
     newOutPeople.close();
 }
 
+void welcomeMessage()
+{
+  cout<<" ";
+  for(int i = 0; i<83; i++)
+  {
+    cout<<"_";
+  }
 
+  cout<<endl<<"|";
+  for(int i = 0; i<83; i++)
+  {
+    cout<<" ";
+  }
+  cout<<"|"<<endl;
 
+  cout<<"|";
+  for(int i = 0; i<26; i++)
+  {
+    cout<<" ";
+  }
+  cout<<"WELCOME TO THIS FAMILY KINGDOM!";
+  for(int i = 0; i<26; i++)
+  {
+    cout<<" ";
+  }
+  cout<<"|"<<endl;
 
+  cout<<"|";
+  for(int i = 0; i<83; i++)
+  {
+    cout<<"_";
+  }
+  cout<<"|";
+
+}
+
+void goodbyeMessage()
+{
+  cout<<" ";
+  for(int i = 0; i<83; i++)
+  {
+    cout<<"_";
+  }
+
+  cout<<endl<<"|";
+  for(int i = 0; i<83; i++)
+  {
+    cout<<" ";
+  }
+  cout<<"|"<<endl;
+
+  cout<<"|";
+  for(int i = 0; i<22; i++)
+  {
+    cout<<" ";
+  }
+  cout<<"THANK YOU FOR YOUR VISIT. SEE YOU SOON!";
+  for(int i = 0; i<22; i++)
+  {
+    cout<<" ";
+  }
+  cout<<"|"<<endl;
+
+  cout<<"|";
+  for(int i = 0; i<83; i++)
+  {
+    cout<<"_";
+  }
+  cout<<"|";
+}
