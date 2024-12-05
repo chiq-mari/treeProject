@@ -5,9 +5,6 @@
 #include <cctype>
 #include ".\treeKingdom\tree\tree.cpp"
 
-// controller = generate tree, change data panel,
-//modify field, newKingdomMember
-// view  == option panel
 using namespace std;
 
 void generateTree(Tree<Person> &); //function that will insert the people to the tree
@@ -117,7 +114,7 @@ void optionPanel(Tree<Person> &myTree)
     {
       cout<<" ";
     }
-    cout<<"Tell us: What would you like to do?"<<endl;
+    cout<<endl<<"Tell us: What would you like to do?"<<endl;
     cout<<"(Option 1) To know: Who is the actual King?"<<endl;
     cout<<"(Option 2) Visualize the crown's sucession line from actual King"<<endl;
     cout<<"(Option 3) Modify data in the tree"<<endl;
@@ -191,7 +188,6 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
         cout<<"(Option 3) Gender"<<endl;
         cout<<"(Option 4) Age"<<endl;
         cout<<"(Option 5) Update life status to dead"<<endl;
-        cout<<"(Option 6) Was king?"<<endl;
         cout<<"Enter your the number of your option here: ";
         cin>>changingData;
         
@@ -325,39 +321,6 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
                 }
                 break;
               }
-            case 6:
-                {
-                  cout<<endl<<"Was ";
-                  myTree.findNodeInTree(idChangingPerson)->getData().printPerson();
-                  cout<<" a king?"<<endl<<"(Option 1) Yes"<<endl<<"(Option 2) No"<<endl<<"Enter the number of your option here: ";
-                  cin>>newData;
-                  int newDataInt = stoi(newData);
-                  switch(newDataInt)
-                  {
-                    case 1:
-                    {
-                      modifyField(idChangingPerson, changingData, newData);
-                      cout<<endl;
-                      break;
-                    }
-                    case 2: 
-                    { 
-                      newData = "0";
-                      modifyField(idChangingPerson, changingData, newData);
-                      cout<<endl;
-                      break;
-                    }
-                    default:
-                    {
-                      cout<<"That is not a valid option, please try again."<<endl;
-                      break;
-                    }
-                  }
-                  cout<<endl;
-                  myTree.emptiesWholeTree();
-                  generateTree(myTree);
-                  break;
-                }
             default: 
                 {
                 cout<<"That is not a valid option, please try again"<<endl<<endl;
@@ -458,15 +421,6 @@ void modifyField(int idChPerson, int field, string newData)
               {
                 isDeadString = newData; 
                 cout<<"Updated to be dead succesfully"<<endl;
-                foundData = true;
-              }
-              break;
-
-            case 6:
-              if(stoi(idString) == idChPerson)
-              {
-                wasKingString = newData;
-                cout<<"Was king field updated succesfully"<<endl;
                 foundData = true;
               }
               break;
