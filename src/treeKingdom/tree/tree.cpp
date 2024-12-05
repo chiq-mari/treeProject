@@ -468,6 +468,8 @@ void Tree<T>:: changeNodeToDead(Node<T>*& node)
 template<class T>
 void Tree<T>:: successionLine()
 {
+    static int counter =1;
+
     setKing(findKingG1());
 
 
@@ -475,9 +477,12 @@ void Tree<T>:: successionLine()
     {
         return;
     }
-    cout<<"-->";
+    cout<<"King "<<counter<<" -> ";
 
     this->king->printNode();
+
+    cout<<endl;
+    counter++;
 
     this->king->changeToDead();
     
