@@ -273,7 +273,7 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
                   if(newDataInt>=fatherAge && fatherNode->getData().isAlive())
                   {
                     cout<<"      Invalid age. ";
-                    cout<<nameChangingPerson<<"'s father is "<<fatherAge<<" years old. "<<nameChangingPerson<<"'s age must be smaller."<<endl;
+                    cout<<nameChangingPerson<<"'s father is "<<fatherAge<<" years old and is alive. "<<nameChangingPerson<<"'s age must be smaller."<<endl;
                     cout<<"      Please, try again."<<endl;
                   }
                 }
