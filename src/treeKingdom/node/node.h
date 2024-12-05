@@ -6,6 +6,7 @@ template<class T>
 class Node{
     private:
         T data;
+        T* address = &data;
         int height=0;
         Node<T>* left=nullptr;
         Node<T>* right=nullptr;
@@ -19,6 +20,9 @@ class Node{
         //data
         void setData(T);
         T getData();
+
+        T* getAddressOfT();
+        void changeToDead();
         //left
         void setLeftChild(Node<T>*);
         Node<T>* getLeftChild();

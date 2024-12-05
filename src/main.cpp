@@ -20,30 +20,22 @@ void changeDataPanel(int, Tree<Person>&);
 void modifyField(int, int, string);
 // function to add a new member to the kingdom
 void newKingdomMember(Tree<Person>&);
+//modify king field in csv
+void isKingInFile(int, string);
+
+void welcomeMessage();
+
+void goodbyeMessage();
 
 int main()
 {
+    welcomeMessage();
     Tree<Person> myKTree;
-
     generateTree(myKTree);
-    
-    optionPanel(myKTree);
-
-    myKTree.printing(myKTree.findNodeInTree(15088813));
-    cout<<endl;
-    myKTree.printing(myKTree.findNodeInTree(6577415));
-    cout<<endl;
-    myKTree.printing(myKTree.findNodeInTree(29076978));
-    cout<<endl;
-    myKTree.printing(myKTree.findNodeInTree(30355203));
-    cout<<endl;
-    myKTree.printing(myKTree.findNodeInTree(29182614));
-    cout<<endl;
-    myKTree.printing(myKTree.findNodeInTree(30392967));
-    cout<<endl;
-    myKTree.printing(myKTree.findNodeInTree(29182614));
+    optionPanel(myKTree); 
+    goodbyeMessage();
 }
-/////////////////////////////////////////////////////////////////////////////////
+
 void generateTree(Tree<Person> &myTree)
 {
     fstream inPeople("../bin/data.csv", ios::in);
@@ -115,6 +107,7 @@ void optionPanel(Tree<Person> &myTree)
 
   do
   {
+    cout<<endl;
     for(int i = 0; i<84; i++)
     {
       cout<<"_";
@@ -137,13 +130,20 @@ void optionPanel(Tree<Person> &myTree)
     switch(option)
     {
         case 1:
-            cout<<"I currently don't know the actual king"<<endl<<endl;
+            cout<<"The current king is ";
+            myTree.findKingG1()->getData().printPerson();
+            cout<<endl<<endl;
             break;
 
         case 2: 
-            cout<<"I currently can't tell you the crown's succesion line in the kingdom"<<endl<<endl;;
+          {
+            Tree<Person> alternativeTree;
+            generateTree(alternativeTree);
+            alternativeTree.successionLine();
+            alternativeTree.emptiesWholeTree();
+            cout<<endl<<endl;
             break;
-
+          }
 
         case 3: 
             int personID;
@@ -275,21 +275,56 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
                 }
                 while(newDataInt>=fatherAge);
                 cout<<endl;  // asks for age as long as an invalid age is entered
-                modifyField(idChangingPerson, changingData, newData);
+                modifyField(idChangingPerson, changingData, newData); // modifies age
+
+                if(myTree.findNodeInTree(idChangingPerson)->getData().isActualKing())
+                {   // in case that the person is a king
+                  if(newDataInt>70) // and their new age is greater than 70
+                  {
+                    modifyField(idChangingPerson, 6, "1"); // modify to wasKing true
+                    isKingInFile(idChangingPerson, "0");  // and isKing false
+                  }
+                }
                 myTree.emptiesWholeTree();
                 generateTree(myTree);
+
+                // now we have to update the new king 
+                Node<Person>* newKingHolder = myTree.findKingG1(); // find the new king
+                int newKingID = newKingHolder->getData().getId();  // and their ID
+                isKingInFile(newKingID, "1"); // and change in csv to be king
+                myTree.emptiesWholeTree();
+                generateTree(myTree); // update Tree
                 break;
               }
 
             case 5:
-                {
+              {
                 newData = "1";  // since this person status could only be updated if the person dies
                 modifyField(idChangingPerson, changingData, newData);
-                myTree.emptiesWholeTree();
-                generateTree(myTree);
-                cout<<endl;
-                break;
+
+                if(myTree.findNodeInTree(idChangingPerson)->getData().isActualKing())
+                {   // in case that the person is a king
+                  isKingInFile(idChangingPerson, "0");  // modify isKing to false
+                  modifyField(idChangingPerson, 6, "1"); // modify to wasKing true
+                
+                  myTree.emptiesWholeTree();
+                  generateTree(myTree);
+
+                  // now we have to update the new king 
+                  Node<Person>* newKingHolder = myTree.findKingG1(); // find the new king
+                  int newKingID = newKingHolder->getData().getId();  // and their ID
+                  isKingInFile(newKingID, "1"); // and change in csv to be king
+                  myTree.emptiesWholeTree();
+                  generateTree(myTree); // update Tree
+                  cout<<endl;
                 }
+                else
+                {
+                  myTree.emptiesWholeTree();
+                  generateTree(myTree); // update Tree
+                }
+                break;
+              }
             case 6:
                 {
                   cout<<endl<<"Was ";
@@ -415,9 +450,9 @@ void modifyField(int idChPerson, int field, string newData)
                 ageString = newData;
                 cout<<"Age updated succesfully"<<endl;
                 foundData = true;
-              }
-              break;
-
+                }
+                break;
+      
             case 5: 
               if(stoi(idString) == idChPerson)
               {
@@ -463,7 +498,6 @@ void modifyField(int idChPerson, int field, string newData)
     newInPeople.close();
     newOutPeople.close();  
 }
-
 
 void newKingdomMember(Tree<Person> &myTree)
 {
@@ -609,4 +643,149 @@ void newKingdomMember(Tree<Person> &myTree)
   outPeople.close();
 
   myTree.insert(personTree);
+}
+
+void isKingInFile(int idChPerson, string isKingSt)
+{
+  fstream inPeople("../bin/data.csv", ios::in);
+  fstream outPeople("../bin/alternativeData.csv", ios::out);
+    
+    if(!inPeople.is_open())
+    {
+      cout<<"The requested file could not be open"<<endl;
+      return;
+    }
+    // declaring holders  
+    string idString;
+    string name;
+    string lastName;
+    string gender;
+    string ageString;
+    string idFatherString;
+    string isDeadString;
+    string wasKingString;
+    string isKingString;
+    string dataLine;  // csv lineholder
+
+    getline(inPeople, dataLine); // file header
+    outPeople<<dataLine;
+    bool foundData = false; 
+
+    Person personTree;
+    while(!inPeople.eof())
+    {   
+        outPeople<<endl;
+        getline(inPeople, dataLine);
+        stringstream s(dataLine);
+        getline(s, idString, ',');
+        getline(s, name, ',');
+        getline(s, lastName, ',');
+        getline(s, gender, ',');
+        getline(s, ageString, ',');
+        getline(s, idFatherString, ',');
+        getline(s, isDeadString, ',');
+        getline(s, wasKingString, ',');
+        getline(s, isKingString, ',');
+        
+        if(foundData == false)
+        {  // check whether the person whose info is to be changed was already found
+          if(stoi(idString) == idChPerson)
+          {
+            isKingString = isKingSt;
+            foundData = true;
+          }
+        }
+        outPeople<<idString<<","<<name<<","<<lastName<<","<<gender<<","<<ageString<<","<<idFatherString<<","<<isDeadString<<","<<wasKingString<<","<<isKingString;
+    }  
+    
+    inPeople.close();
+    outPeople.close();  
+
+    fstream newOutPeople("../bin/data.csv", ios::out);
+    fstream newInPeople("../bin/alternativeData.csv", ios::in);
+
+    getline(newInPeople, dataLine);
+    newOutPeople<<dataLine;
+
+    do
+    {
+        newOutPeople<<endl;
+        getline(newInPeople, dataLine);
+        newOutPeople<<dataLine;
+    }
+    while (!newInPeople.eof());
+
+    newInPeople.close();
+    newOutPeople.close();
+}
+
+void welcomeMessage()
+{
+  cout<<" ";
+  for(int i = 0; i<83; i++)
+  {
+    cout<<"_";
+  }
+
+  cout<<endl<<"|";
+  for(int i = 0; i<83; i++)
+  {
+    cout<<" ";
+  }
+  cout<<"|"<<endl;
+
+  cout<<"|";
+  for(int i = 0; i<26; i++)
+  {
+    cout<<" ";
+  }
+  cout<<"WELCOME TO THIS FAMILY KINGDOM!";
+  for(int i = 0; i<26; i++)
+  {
+    cout<<" ";
+  }
+  cout<<"|"<<endl;
+
+  cout<<"|";
+  for(int i = 0; i<83; i++)
+  {
+    cout<<"_";
+  }
+  cout<<"|";
+
+}
+
+void goodbyeMessage()
+{
+  cout<<" ";
+  for(int i = 0; i<83; i++)
+  {
+    cout<<"_";
+  }
+
+  cout<<endl<<"|";
+  for(int i = 0; i<83; i++)
+  {
+    cout<<" ";
+  }
+  cout<<"|"<<endl;
+
+  cout<<"|";
+  for(int i = 0; i<22; i++)
+  {
+    cout<<" ";
+  }
+  cout<<"THANK YOU FOR YOUR VISIT. SEE YOU SOON!";
+  for(int i = 0; i<22; i++)
+  {
+    cout<<" ";
+  }
+  cout<<"|"<<endl;
+
+  cout<<"|";
+  for(int i = 0; i<83; i++)
+  {
+    cout<<"_";
+  }
+  cout<<"|";
 }

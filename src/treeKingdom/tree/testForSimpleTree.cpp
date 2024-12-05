@@ -69,7 +69,7 @@ int main()
     Person person21(23039858,"Rania","Lepick","Female",48,9669780,0,0,0);
     Person person22(23431360,"Martguerita","Gero","Female",47,13057926,0,0,0);
     Person person23(23831391,"Dodi","Cowins","Female",44,9977012,0,0,0);
-    Person person24(23949766,"Alvy","Sheppard","Male",46,9977012,1,0,0);
+    Person person24(23949766,"Alvy","Sheppard","Male",46,9977012,0,0,0);
     Person person25(25314402,"Franny","Phillcock","Male",45,16788635,0,0,0);
     Person person26(27092143,"Chad","Freckleton","Female",44,10816975,0,0,0);
     Person person27(27389927,"Kay","Gallimore","Female",43,15088813,0,0,0);
@@ -114,13 +114,20 @@ int main()
   //  arbol.insert(person31);
     
 
-    Node<Person>* k= arbol.findNodeInTree(3205117);
+    Node<Person>* k= arbol.findNodeInTree(4690818);
 
-    arbol.printing(k);
+    //k->changeToDead();
+
+    //arbol.changeNodeToDead(k);
+    //cout<<k->getData().isAlive();
+
+    //arbol.printing(k);
 
    // arbol.findKingToTheLeft(k)->printNode();
 
     
-    arbol.findKingG1()->printNode();
+    //arbol.findKingG1()->printNode();
+
+    arbol.successionLine();
 
 }

@@ -47,4 +47,7 @@ class Tree{
         void emptiesTreeFromRoot(Node<T>*&);
         void emptiesWholeTree();
         void setRoot(Node<T>*);
+
+        void changeNodeToDead(Node<T>*&);
+        void successionLine();
 };

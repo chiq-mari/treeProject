@@ -44,6 +44,18 @@ T Node<T>:: getData()
 {
     return this->data;
 }
+
+template<class T>
+T* Node<T>:: getAddressOfT()
+{
+    return this->address;
+}
+
+template<class T>
+void Node<T>:: changeToDead()
+{
+    getAddressOfT()->changeToDead();
+}
     
 //left
 template<class T>
