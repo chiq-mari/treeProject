@@ -20,6 +20,9 @@ void newKingdomMember(Tree<Person>&);
 //modify king field in csv
 void isKingInFile(int, string);
 
+//modify king field in csv
+void wasKingInFile(int, string);
+
 void welcomeMessage();
 
 void goodbyeMessage();
@@ -258,24 +261,23 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
 
             case 4:
               {
-                int fatherID;
-                int fatherAge;
+                int fatherID = myTree.findNodeInTree(idChangingPerson)->getData().getIdFather();
+                Node<Person>* fatherNode = myTree.findNodeInTree(fatherID);
+                int fatherAge = fatherNode->getData().getAge();
                 string nameChangingPerson = myTree.findNodeInTree(idChangingPerson)->getData().getName();
                 do
                 {
                   cout<<"   Enter the updated age: ";
                   cin>>newData;
                   newDataInt = stoi(newData);
-                  fatherID = myTree.findNodeInTree(idChangingPerson)->getData().getIdFather();
-                  fatherAge = myTree.findNodeInTree(fatherID)->getData().getAge();
-                  if(newDataInt>=fatherAge)
+                  if(newDataInt>=fatherAge && fatherNode->getData().isAlive())
                   {
                     cout<<"      Invalid age. ";
                     cout<<nameChangingPerson<<"'s father is "<<fatherAge<<" years old. "<<nameChangingPerson<<"'s age must be smaller."<<endl;
                     cout<<"      Please, try again."<<endl;
                   }
                 }
-                while(newDataInt>=fatherAge);
+                while(newDataInt>=fatherAge && fatherNode->getData().isAlive());
                 cout<<endl;  // asks for age as long as an invalid age is entered
                 modifyField(idChangingPerson, changingData, newData); // modifies age
 
@@ -283,7 +285,7 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
                 {   // in case that the person is a king
                   if(newDataInt>70) // and their new age is greater than 70
                   {
-                    modifyField(idChangingPerson, 6, "1"); // modify to wasKing true
+                    wasKingInFile(idChangingPerson, "1"); // modify to wasKing true
                     isKingInFile(idChangingPerson, "0");  // and isKing false
                   }
                 }
@@ -307,7 +309,7 @@ void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
                 if(myTree.findNodeInTree(idChangingPerson)->getData().isActualKing())
                 {   // in case that the person is a king
                   isKingInFile(idChangingPerson, "0");  // modify isKing to false
-                  modifyField(idChangingPerson, 6, "1"); // modify to wasKing true
+                  wasKingInFile(idChangingPerson,"1"); // modify to wasKing true
                 
                   myTree.emptiesWholeTree();
                   generateTree(myTree);
@@ -585,7 +587,7 @@ void newKingdomMember(Tree<Person> &myTree)
     if(age>=fatherAge)
     {
       cout<<"      Invalid age. ";
-      cout<<name<<"'s father is "<<fatherAge<<" years old. "<<name<<"'s age must be smaller."<<endl;
+      cout<<name<<"'s father is "<<fatherAge<<" years old and has not died yet. "<<name<<"'s age must be smaller."<<endl;
       cout<<"      Please, try again."<<endl;
     }
   }
@@ -652,6 +654,80 @@ void isKingInFile(int idChPerson, string isKingSt)
           if(stoi(idString) == idChPerson)
           {
             isKingString = isKingSt;
+            foundData = true;
+          }
+        }
+        outPeople<<idString<<","<<name<<","<<lastName<<","<<gender<<","<<ageString<<","<<idFatherString<<","<<isDeadString<<","<<wasKingString<<","<<isKingString;
+    }  
+    
+    inPeople.close();
+    outPeople.close();  
+
+    fstream newOutPeople("../bin/data.csv", ios::out);
+    fstream newInPeople("../bin/alternativeData.csv", ios::in);
+
+    getline(newInPeople, dataLine);
+    newOutPeople<<dataLine;
+
+    do
+    {
+        newOutPeople<<endl;
+        getline(newInPeople, dataLine);
+        newOutPeople<<dataLine;
+    }
+    while (!newInPeople.eof());
+
+    newInPeople.close();
+    newOutPeople.close();
+}
+
+void wasKingInFile(int idChPerson, string wasKingSt)
+{
+  fstream inPeople("../bin/data.csv", ios::in);
+  fstream outPeople("../bin/alternativeData.csv", ios::out);
+    
+    if(!inPeople.is_open())
+    {
+      cout<<"The requested file could not be open"<<endl;
+      return;
+    }
+    // declaring holders  
+    string idString;
+    string name;
+    string lastName;
+    string gender;
+    string ageString;
+    string idFatherString;
+    string isDeadString;
+    string wasKingString;
+    string isKingString;
+    string dataLine;  // csv lineholder
+
+    getline(inPeople, dataLine); // file header
+    outPeople<<dataLine;
+    bool foundData = false; 
+
+    Person personTree;
+    while(!inPeople.eof())
+    {   
+        outPeople<<endl;
+        getline(inPeople, dataLine);
+        stringstream s(dataLine);
+        getline(s, idString, ',');
+        getline(s, name, ',');
+        getline(s, lastName, ',');
+        getline(s, gender, ',');
+        getline(s, ageString, ',');
+        getline(s, idFatherString, ',');
+        getline(s, isDeadString, ',');
+        getline(s, wasKingString, ',');
+        getline(s, isKingString, ',');
+        
+        if(foundData == false)
+        {  // check whether the person whose info is to be changed was already found
+          if(stoi(idString) == idChPerson)
+          {
+            wasKingString = wasKingSt;
             foundData = true;
           }
         }
