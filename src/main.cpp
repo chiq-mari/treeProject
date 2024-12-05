@@ -114,7 +114,12 @@ void optionPanel(Tree<Person> &myTree)
     {
       cout<<" ";
     }
-    cout<<endl<<"Tell us: What would you like to do?"<<endl;
+    cout<<endl;
+    for(int i = 0; i<26; i++)
+    {
+      cout<<" ";
+    }
+    cout<<"Tell us: What would you like to do?"<<endl;
     cout<<"(Option 1) To know: Who is the actual King?"<<endl;
     cout<<"(Option 2) Visualize the crown's sucession line from actual King"<<endl;
     cout<<"(Option 3) Modify data in the tree"<<endl;
@@ -156,6 +161,7 @@ void optionPanel(Tree<Person> &myTree)
 
         case 5:
             cout<<"You'll exit this program now"<<endl;
+            keepExe = false;
             return;
 
         default: 
@@ -163,7 +169,7 @@ void optionPanel(Tree<Person> &myTree)
     }
 
   }
-  while(true); 
+  while(keepExe); 
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 void changeDataPanel(int idChangingPerson, Tree<Person> &myTree)
