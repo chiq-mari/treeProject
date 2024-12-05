@@ -1,10 +1,10 @@
 id,name,last_name,gender,age,id_father,is_dead,was_king,is_king
 3205117,Tootsie,Bainbridge,Female,71,5688792,0,1,0
-4690818,Ginelle,Kingsley,Female,70,3205117,0,0,1
+4690818,Ginelle,Kingsley,Female,70,3205117,1,0,0
 4911800,Ariadne,Marchenko,Female,69,3205117,0,0,0
 6171932,Roch,Jillard,Female,65,4911800,0,0,0
 6577415,Andree,Dupre,Female,68,4911800,0,0,0
-7652970,Hilary,Murrie,Male,67,4690818,0,0,0
+7652970,Hilary,Murrie,Male,67,4690818,0,0,1
 9054378,Lilllie,Collister,Female,66,4690818,0,0,0
 9648860,Binky,Leggen,Male,60,7652970,0,0,0
 9669780,Daniella,Cockburn,Female,65,7652970,0,0,0
@@ -30,3 +30,4 @@ id,name,last_name,gender,age,id_father,is_dead,was_king,is_king
 29076978,Dreddy,Scinelli,Female,40,15088813,0,0,0
 29182614,Lea,Hussy,Female,39,12938948,0,0,0
 29344611,Daniel,Presswell,Male,38,12938948,0,0,0
+5266424,yussif,klu,Female,23,29344611,0,0,0

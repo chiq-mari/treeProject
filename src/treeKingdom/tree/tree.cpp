@@ -474,7 +474,8 @@ void Tree<T>:: successionLine()
 
 
     if(this->king==nullptr)
-    {
+    {   
+        counter=1;
         return;
     }
     cout<<"King "<<counter<<" -> ";
